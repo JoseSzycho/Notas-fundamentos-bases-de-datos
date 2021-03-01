@@ -5,6 +5,8 @@
 
 ## Indice
 
+- [Resumen](#resumen)
+
 - [Fundamentos de Bases de Datos](#fundamentos-de-bases-de-datos)
   - [Indice](#indice)
   - [Modulo 1. Bienvenida conceptos básicos y contexto histórico de las Bases de Datos](#modulo-1-bienvenida-conceptos-básicos-y-contexto-histórico-de-las-bases-de-datos)
@@ -103,6 +105,14 @@
     - [Clase 57 Por que aprender bases de datos hoy](#clase-57-por-que-aprender-bases-de-datos-hoy)
   - [Bonus](#bonus)
     - [Clase 58 Bases de datos relacionales vs no relacionales](#clase-58-bases-de-datos-relacionales-vs-no-relacionales)
+
+
+
+## Resumen
+
+En este link podemos ver un mapa conecptual que da un resumen rápido de todo:
+
+https://www.goconqr.com/mindmap/22606096/fundamentos-de-bases-de-datos
 
 ## Modulo 1. Bienvenida conceptos básicos y contexto histórico de las Bases de Datos
 
@@ -298,13 +308,20 @@ Un diagrama es como un mapa y nos ayuda a entender cuáles son las entidades con
 
 ![src/diagrama_ER.png](src/diagrama_ER.png)
 
+1 usuario puede escribir muchos posts, pero un post no puede ser escrito por muchos usuarios
+1 usuario puede escribir muchos comentarios, pero un comentario no puede ser escrito por muchos usuarios..
+1 post puede tener muchos comentarios, pero un comentario no puede pertenecer a muchos posts
+muchos posts pueden tener muchas etiquetas, y muchas etiquetas pueden tener muchos posts
+1 categoría puede tener muchos posts
+
+
 ### Clase 9 Diagrama Físico: tipos de datos y constraints
 
 Para llevar a la práctica un diagrama debemos ir más allá y darle detalle con parámetros como:
 
 #### Tipos de dato
 
-**- Texto:** CHAR(n), VARCHAR(n), TEXT
+**- Texto:** CHAR(n) es de tamaño fijo, VARCHAR(n) es dinámico, TEXT almacena cadenas de textos largas
 **- Números:** INTEGER, BIGINT, SMALLINT, DECIMAL(n,s), NUMERIC(n,s)
 **- Fecha/hora:** DATE, TIME, DATETIME, TIMESTAMP
 **- Lógicos:** BOOLEAN
@@ -349,6 +366,8 @@ La normalización como su nombre lo indica nos ayuda a dejar todo de una forma n
 **Cuarta forma normal (4FN):** Cumple 1FN, 2FN, 3FN y los campos multivaluados se identifican por una clave única.
 
 ![src/diagrama_fisico_4N.png](src/diagrama_fisico_4N.png)
+
+Esto ayuda a la base de datos y permite unir información de formas que si está todo junto no se puede.
 
 ### Clase 11 Diagrama Físico: normalizando Platziblog
 
@@ -519,6 +538,8 @@ Introducción a google cloud, toma el curso para configurarlo.
 
 ## Modulo 4 SQL hasta en la sopa
 
+![worckbench_3](src/comandos_sql.png)
+
 ### Clase 19 Historia de SQL
 
 **SQL** significa Structured Query Language y tiene una estructura clara y fija. Su objetivo es hacer un solo lenguaje para consultar cualquier manejador de bases de datos volviéndose un gran estándar.
@@ -555,7 +576,7 @@ El comando Create Table
 
 ![create_table_slide](src/create_table_slide.png)
 
-El creamos con workbench la tabla anterior, definimos  cada uno de los campos de manera sencilla posterior damos apply
+El creamos con workbench-> Tables (click derecho, crear tabla) , definimos  cada uno de los campos de manera sencilla posterior damos apply
 
 ![worckbench_new_table_1.png](src/worckbench_new_table_1.png)
 
@@ -768,6 +789,7 @@ Creamos el schema `platziblog` y seleccionamos como default y creamos las siguie
 
 - categorías
   
+
 ![platziblog_tabla_etiquetas_1](src/platziblog_tabla_caracteristicas_1.png)
 
 ![platziblog_tabla_caracteristicas_2](src/platziblog_tabla_caracteristicas_2.png)
@@ -794,6 +816,19 @@ El comando **“cascade”** sirve para que cada que se haga un update en la tab
 ![platziblog_tabla_post_2.png](src/platziblog_tabla_post_2.png)
 
 Vamos a la pestaña Foreign Key y asignamos las relaciones.
+
+## Las Foreing Key options son las siguientes:
+
+**On update:** Significa qué pasará con las relaciones cuando una de estas sea modificada en sus campos relacionados, Por ejemplo, pueden utilizarse los valores:
+*cascade:* Si el id de un usuario pasa de 11 a 12, entonces la relacion se actualizará y el post buscará el id nuevo en lugar de quedarse sin usuario.
+_ *restrict:* _Si el id de un usuario pasa de 11 a 12, no lo permitirá hasta que no sean actualizados antes todos los post relacionados.
+set null\Si el id de un usuario pasa de 11 a 12, entonces los post solo no estará relacionados con nada.
+\no action:  Si el id de un usuario pasa de 11 a 12, no se hará nada. Solo se romperá la relación.
+**On delete**
+_ cascade:\* Si un usuario es eliminado entonces se borrarán todos los post relacionados.
+\*restrict\*: No se podrá eliminar un usuario hasta que sean eliminados todos su post relacionados.
+_ set null*: Si un usuario es eliminado, entonces los post solo no estará relacionados con nada.
+*no action:* Si un usuario es eliminado, no se hará nada. Solo se romperá la relación.
 
 Asignamos la llave foranea del usuario_id
 
@@ -1168,6 +1203,8 @@ Los diagramas de Venn son círculos que se tocan en algún punto para ver dónde
 ![teoria_conjuntos](src/Teoria_conjuntos.jpg)
 
 ![teoria_conjuntos_sentencias](src/teoria_conjuntos_sentencias.jpg)
+
+**ATENCION** NO EXISTE FULL OUTER EN SQL, BUSCAR COMO SE REEMPLAZA
 
 ### Clase 32 Utilizando la sentencia FROM
 
@@ -1544,6 +1581,8 @@ GROUP BY posts.id
 ORDER BY num_etiquetas DESC
 ;
 ```
+
+**En este caso** quien unir POST con la tabla intermediaria posts_etiquetas y luego con la tabla etiquetas
 
 Usando GROUP_CONCAT para tener campos separados por comas
 
